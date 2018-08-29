@@ -1,27 +1,38 @@
 #include <stdio.h>
-#include <malloc.h>
 #include <string.h>
 
-struct node {
-  int val;
-  struct node * next;
-} ;
-
 int main() {
-  // input dos dados
-  int count = 0;
+
   int N, M;
-  gets("%d", &N);
-  gets("%d", &M);
-  int lista[N];
-  int remover[M];
-  // condicionais para programa
-  if (M > N || N > 50000 || M > 50000) {
-    return 0;
+  int i = 0, j = 0;
+  scanf("%d", &N);
+  char fila[N];
+  gets(fila);
+  scanf("%d", &M);
+  char remover[M];
+  gets(remover);
+  char * token = strtok(fila, " ");
+  char * toke = strtok(remover, " ");
+
+  // split primeiro array
+  for (i = 0; token != NULL; i++) {
+    fila[i] = *token;
+    token = strtok(NULL, " ");
   }
-
-
-
+  // split segundo array
+  for (size_t i = 0; toke != NULL; i++) {
+    remover[i] = *toke;
+    toke = strtok(NULL, " ");
+  }
+  // compara e remove o item
+  while (j < M) {
+    if (fila[i] == remover[j]) {
+      fila[i] = fila[i + 1];
+      j++;
+    }
+    i++;
+  }
+  printf("%s", fila);
 
   return 0;
 }
