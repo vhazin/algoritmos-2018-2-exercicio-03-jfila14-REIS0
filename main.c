@@ -6,33 +6,38 @@ int main() {
   int N, M;
   int i = 0, j = 0;
   scanf("%d", &N);
-  char fila[N];
-  gets(fila);
+  int fila[N];
   scanf("%d", &M);
-  char remover[M];
-  gets(remover);
-  char * token = strtok(fila, " ");
-  char * toke = strtok(remover, " ");
+  int remover[M];
+  //char * token = strtok(fila, " ");
+  //char * toke = strtok(remover, " ");
 
-  // split primeiro array
-  for (i = 0; token != NULL; i++) {
-    fila[i] = *token;
-    token = strtok(NULL, " ");
+  // input primeiro array
+  while (i < N && scanf("%d", &fila[i]) == 1) {
+    i++;
   }
-  // split segundo array
-  for (size_t i = 0; toke != NULL; i++) {
-    remover[i] = *toke;
-    toke = strtok(NULL, " ");
+  // input segundo array
+  while (j < M && scanf("%d", &remover[j]) == 1) {
+    j++;
   }
   // compara e remove o item
-  while (j < M) {
-    if (fila[i] == remover[j]) {
+  i = 0;
+  j = 0;
+  while (1) {
+    if (j == (M - 1)) {
+      break;
+    }
+    else if (fila[i] == remover[j]) {
       fila[i] = fila[i + 1];
       j++;
+      i = 0;
     }
     i++;
   }
-  printf("%s", fila);
+
+  for (size_t i = 0; i < sizeof(fila); i++) {
+    printf("%d ", fila[i]);
+  }
 
   return 0;
 }

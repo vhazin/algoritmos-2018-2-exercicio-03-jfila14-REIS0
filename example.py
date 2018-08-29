@@ -2,22 +2,21 @@
 N = int(input(""))
 fila = str(input("")).split()
 
-# items a se remover
+# itens a se remover
 M = int(input(""))
+#conicional
 if M > N or N > 50000 or M > 50000:
     exit(1)
 remove = str(input("")).split()
-
+#condicional
 if len(fila) > N or len(remove) > M:
     exit(1)
+
 #checa os itens para remover da lista principal
-j = 0
-i = 0
-print(fila[i])
-while j < M:
-    if fila[i] == remove[j]:
-        fila.remove(fila[i])
-        j += 1
-    i += 1
+for i in range(0, (len(fila) - 1)):
+    for j in range(0, (len(remove) - 1)):
+        if fila[i] == remove[j]:
+            fila.remove(fila[i])
+    print(i, j)
 
 print(" ".join(fila))
