@@ -17,10 +17,10 @@ int main() {
     j++;
 
   // compara e remove o item
-  int novo[N-M];
+  int novo[N - M];
   int aux = 0;
   int achou;
-  for(i=0; i<N; i++){
+  for(i = 0; i < N; i++){
     achou = 0;
     for(j=0; j<M; j++){
         if(fila[i] == remover[j]){
@@ -34,7 +34,7 @@ int main() {
     }
   }
 
-  for (size_t i = 0; i < N-M; i++) {
+  for (size_t i = 0; i < N - M; i++) {
     printf("%d ", novo[i]);
   }
 
