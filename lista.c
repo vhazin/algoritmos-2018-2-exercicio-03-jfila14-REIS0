@@ -8,8 +8,48 @@ typedef struct Node {
 
 typedef struct List {
   int size;
-  struct node * data;
+  node * begin;
+  node * end;
 } list ;
+
+list * createlist();
+void addlist(list * head, int * val);
+void empty(list * head);
+void retirar(list * head, int value);
+void display(node * head);
+void destroy(node ** head);
+
+int main() {
+ N);
+  int i = 0, j = 0;
+  int s;
+  int N, M;
+  scanf("%d", &N);
+  int fila[N];
+  while (i != N){
+    scanf("%d", &s);
+    addlist(list * head, s);
+    i++;
+  }
+  scanf("%d", M);
+  int remover[M];
+  while (j < N && scanf("%d", &remover[j]) == 1)
+    j++;
+
+  for (size_t i = 0; i < N; i++) {
+    for (size_t j = 0; j < M; j++) {
+      if (fila[i] == remover[j]) {
+        retirar(list * head, i);
+      }
+    }
+  }
+
+  display(node * head);
+  destroy(node * head);
+
+  return 0;
+}
+
 
 
 list * createlist() {
@@ -23,49 +63,37 @@ list * createlist() {
   return (head);
 }
 
-int addlist(list * head, int * val, int position) {
 
-  int i;
+void addlist(list * head, int * val) {
+
   node * new;
-  node * before;
+  new = malloc(sizeof(node));
 
-  if (position > head->size + 1) {
+  if (new == NULL) {
     return 0;
   }
   else {
-
-    new = malloc(sizeof(node));
-
-    if (position == 1) {
-      head->size = head->size + 1;
-      new->val = val;
-      new->next = head->data;
-      head->data = new;
-      return (head->size);
-    }
-
-    else {
-
-      if (new == NULL) {
-        return 0;
-      }
-      else{
-        before = head->data;
-        for (i = 0; i < (position - 2); i++)
-          before = before->next;
-
-        new->next = before->next;
-        new->val = val;
-        before->next = new;
-        head->size = head->size + 1;
-        return (head->size);
-      }
-    }
+    new->next = NULL;
+    new->val = val;
+    head->end->next = val;
+    head->end = new;
+    head->size = head->size + 1;
+    return 1;
   }
 }
 
 
-int retirar(list * head, int value) {
+void empty(list * head) {
+  if (head->size == 0) {
+    return TRUE;
+  }
+  else {
+    return FALSE;
+  }
+}
+
+
+void retirar(list * head, int value) {
 
   node * before;
   node * aux;
@@ -99,54 +127,23 @@ void display(node * head) {
 }
 
 
-void destroy(node * head) {
-  node * temp;
+void destroy(node * head){
+
+  node * now;
   node * before;
 
   if (empty(head)) {
     free(head);
   }
   else {
-    temp = head->data;
-
-    while (temp != NULL) {
-      before = temp;
-      temp = temp->next;
+    now = head->val;
+    while (now != NULL) {
+      before = now;
+      now = now->next;
       free(before->val);
       free(before);
     }
     free(head);
   }
 
-}
-
-
-
-int main() {
-
-  int i = 0, j = 0;
-  int N, M;
-  scanf("%d", N);
-  int fila[N];
-  while (i < N && scanf("%d", &fila[i]) == 1){
-    addlist(list * head, fila[i], i);
-    i++;
-  }
-  scanf("%d", M);
-  int remover[M];
-  while (j < N && scanf("%d", &remover[j]) == 1)
-    j++;
-
-  for (size_t i = 0; i < N; i++) {
-    for (size_t j = 0; j < M; j++) {
-      if (fila[i] == remover[j]) {
-        retirar(list * head, i);
-      }
-    }
-  }
-
-  display(node * head);
-  destroy(node * head);
-
-  return 0;
 }
