@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 // cria um nó
 typedef struct node {
@@ -7,66 +7,140 @@ typedef struct node {
   struct node * next;
 } node;
 
+// criando fila
 typedef struct fila {
+  int size;
   struct node * begin;
   struct node * end;
 } fila;
 
 
-node * createlist(int N);
-void displaylist(node * head);
+fila * createlist();
+int insert(fila * FILA, int value);
+void delete(fila * FILA, int value);
+void displaylist(fila * FILA);
+void destroy(fila * FILA);
 
 
 int main() {
 
+  int e, i = 0;
   int N, M;
-  node * HEAD = NULL;
-  printf("N: ");
+  fila * FILA = createlist();
+  printf("");
   scanf("%d", &N);
-  HEAD = createlist(N);
+  if (N < 1 || N > 50000) {
+    return 0;
+  }
+  int lista[N];
 
-  displaylist(HEAD);
+  while (i < N && scanf("%d", &lista[i]) == 1) {
+    i++;
+  }
+  for (i = 0; i < N; i++) {
+    insert(FILA, lista[i]);
+  }
+
+  scanf("%d", &M);
+  if (M < 1 || M > 50000 || M > N) {
+    return 0;
+  }
+
+  int remover[M];
+  i = 0;
+  while (i < M && scanf("%d", &remover[i]) == 1) {
+    i++;
+  }
+  for (i = 0; i < M; i++) {
+    delete(FILA, remover[i]);
+  }
+
+  displaylist(FILA);
+  free(FILA);
 
   return 0;
 }
 
+// cria a fila
+fila * createlist() {
 
-node * createlist(int N) {
+  fila * head;
+  head = (fila*)malloc(sizeof(fila));
 
-  int i;
-  node * head = NULL; // primeiro item da lista
-  node * temp = NULL; // nó após o primeiro
-  node * p = NULL; // posição para adicionar o nó
-
-  // criando nó
-  for (i = 0; i < N; i++) {
-    temp = (node*)malloc(sizeof(node));
-    printf("%d : ", i + 1);
-    scanf("%d", &(temp->data));
-    temp->next = NULL;
-
-    // se a lista não conter items, temp irá virar primeiro item
-    if (head == NULL) {
-      head = temp;
-    }
-    // adiciona o nó ao final da lista
-    else {
-      p = head; // p se torna o primeiro item da lista
-      while (p != NULL) // intera até p ser o ultimo da lista
-        p = p->next;
-      p->next = temp; // o ponteiro do antigo ultimo nó da lista se torna o novo nó que se torna o ultimo item da lista
-    }
+  if (head != NULL) {
+    head->size = 0;
+    head->begin = NULL;
+    head->end = NULL;
   }
   return head;
 }
 
+// inserir item na fila
+int insert(fila * FILA, int value) {
 
-void displaylist(node * head) {
+  node * new;
+  new = (node*)malloc(sizeof(node));
+  new->data = value;
+  new->next = NULL;
 
-  node * p = head;
-  // printa os elementos da lista
-  while (p->next != NULL)  {
-    printf("%d", p->data);
+  if (new == NULL) {
+    return 0;
+  }
+  else if (FILA->begin == NULL){
+    FILA->begin = new;
+    FILA->end = new;
+    FILA->size = 1;
+  }
+  else {
+    FILA->end->next = new;
+    FILA->end = new;
+    FILA->size = FILA->size + 1;
+  }
+  return 1;
+}
+
+//excluir em qualquer posição da fila
+void delete(fila * FILA, int value) {
+
+  node * aux;
+  node * before;
+  aux = FILA->begin;
+  before =  NULL;
+
+  while (aux != NULL) {
+    if (aux->data == value) {
+      // primeiro item da fila
+      if (before == NULL) {
+        FILA->begin = aux->next;
+        break;
+      }
+      // ultimo item da fila
+      else if (aux->next == NULL) {
+        FILA->end = before;
+        before->next = NULL;
+        break;
+      }
+      // meio da fila
+      else {
+        before->next = aux->next;
+        break;
+      }
+      FILA->size = FILA->size - 1;
+    }
+    else {
+      before = aux;
+      aux = aux->next;
+    }
+  }
+}
+
+// mostrar os elementos da fila na tela
+void displaylist(fila * FILA) {
+
+  node * p = FILA->begin;
+
+  while (p != NULL)  {
+    printf("%d ", p->data);
     p = p->next;
   }
 
