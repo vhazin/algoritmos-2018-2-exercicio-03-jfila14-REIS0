@@ -32,27 +32,21 @@ int main() {
   if (N < 1 || N > 50000) {
     return 0;
   }
-  int lista[N];
 
-  while (i < N && scanf("%d", &lista[i]) == 1) {
+  while (i < N && scanf("%d", &e) == 1) {
+    insert(FILA, e);
     i++;
   }
-  for (i = 0; i < N; i++) {
-    insert(FILA, lista[i]);
-  }
-
+  // numeros que seram removidos
   scanf("%d", &M);
   if (M < 1 || M > 50000 || M > N) {
     return 0;
   }
 
-  int remover[M];
   i = 0;
-  while (i < M && scanf("%d", &remover[i]) == 1) {
+  while (i < M && scanf("%d", &e) == 1) {
+    delete(FILA, e);
     i++;
-  }
-  for (i = 0; i < M; i++) {
-    delete(FILA, remover[i]);
   }
 
   displaylist(FILA);
